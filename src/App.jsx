@@ -1,50 +1,12 @@
 import { useState } from "react";
 
-const cardIcons = {
-  diamonds: "♦",
-  clubs: "♣",
-  hearts: "♥",
-  spades: "♠",
-};
-
-const deckCards = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "K", "Q", "J"];
-
-const cardTypes = ["diamonds", "clubs", "hearts", "spades"];
-
-const cardColor = {
-  hearts: "red",
-  diamonds: "red",
-  clubs: "black",
-  spades: "black",
-};
-
-const deck = {
-  diamonds: [...deckCards],
-  clubs: [...deckCards],
-  hearts: [...deckCards],
-  spades: [...deckCards],
-};
-
-const getRandomNumber = (len = 14) => {
-  return Math.floor(Math.random() * len);
-};
+import { getRandomNumber, removeCardFromDeck } from "./utils";
+import { CARD_ICONS, CARDS, CARD_COLOR, DECK, CARD_TYPES } from "./constants";
 
 const cardDimension = "h-60";
 
-const removeCardFromDeck = (deck, card) => {
-  const modifiedDeck = { ...deck };
-  const { type, card: text } = card;
-  const index = deck[type].findIndex((cardText) => cardText === text);
-  if (index !== -1) {
-    modifiedDeck[type].splice(index, 1);
-    modifiedDeck[type] = [...modifiedDeck[type]];
-  }
-
-  return modifiedDeck;
-};
-
 function App() {
-  const [cardDeck, setCardDeck] = useState(deck);
+  const [cardDeck, setCardDeck] = useState(DECK);
   const [cardTable, setCardTable] = useState([]);
 
   const handleDrawCard = () => {
@@ -56,15 +18,17 @@ function App() {
     }
 
     if (cardTable.length < 50) {
-      while (cardTable.length < 50 && drawnCards.length < 5) {
-        const cardType = cardTypes[getRandomNumber(4)];
-        const card = deckCards[getRandomNumber(13)];
+      while (drawnCards.length < 5) {
+        const cardType = Object.values(CARD_TYPES)[getRandomNumber(4)];
+        const card = CARDS[getRandomNumber(13)];
+
+        console.log({ card, cardType });
 
         if (deckOfCards[cardType].includes(card)) {
           drawnCards.push({
             type: cardType,
-            icon: cardIcons[cardType],
-            color: cardColor[cardType],
+            icon: CARD_ICONS[cardType],
+            color: CARD_COLOR[cardType],
             card,
           });
 
@@ -80,8 +44,8 @@ function App() {
           deckOfCards[type].forEach((card) => {
             drawnCards.push({
               type,
-              icon: cardIcons[type],
-              color: cardColor[type],
+              icon: CARD_ICONS[type],
+              color: CARD_COLOR[type],
               card,
             });
           });
@@ -110,7 +74,6 @@ function App() {
       <div className="text-red-500"></div>
       <div className="text-black-500"></div>
 
-      {/* <div className="mt-4 flex justify-between items-center flex-wrap gap-2"> */}
       <div className="mt-4 grid grid-flow-row 2xl:grid-cols-[repeat(5,minmax(200px,_1fr))] xl:grid-cols-[repeat(4,minmax(200px,_1fr))] lg:grid-cols-[repeat(3,minmax(200px,_1fr))] sm:grid-cols-[repeat(2,minmax(200px,_1fr))] gap-2">
         {cardTable.map((card) => (
           <div
