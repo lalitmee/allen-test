@@ -59,9 +59,9 @@ function App() {
 
   return (
     <div className="md:w-full lg:w-10/12 xl:w-8/12 2xl:w-7/12 mx-auto m-4 p-4">
-      <div className="flex justify-between">
+      <div className="flex flex-col md:flex-row items-center gap-4 justify-center md:justify-between">
         <button
-          className={`border rounded-xl font-bold px-4 py-2 bg-gray-400 text-black 2xl:w-[22%] xl:w-[24%] lg:w-[33%] md:w-[50%] sm:w-[50%] w-full ${cardDimension}`}
+          className="border rounded-md font-bold px-4 py-2 border-gray-400 text-black 2xl:w-[22%] xl:w-[24%] lg:w-[33%] md:w-[50%] sm:w-[50%] w-full hover:bg-slate-200 transition-all delay-100"
           onClick={handleDrawCard}
         >
           Draw card
